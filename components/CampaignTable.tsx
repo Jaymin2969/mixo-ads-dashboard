@@ -158,8 +158,8 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
                             </tr>
                         ) : (
                             sortedCampaigns.map((campaign, index) => (
-                                <tr 
-                                    key={campaign.id} 
+                                <tr
+                                    key={campaign.id}
                                     className="hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors duration-200 animate-fade-in"
                                     style={{ animationDelay: `${index * 0.05}s` }}
                                 >

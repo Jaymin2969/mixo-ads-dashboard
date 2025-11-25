@@ -12,16 +12,29 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useState<Theme>('light');
+    // Initialize theme from localStorage or system preference
+    const [theme, setTheme] = useState<Theme>(() => {
+        // Only access localStorage on client side
+        if (typeof window !== 'undefined') {
+            const savedTheme = localStorage.getItem('theme') as Theme;
+            if (savedTheme) {
+                return savedTheme;
+            }
+            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                return 'dark';
+            }
+        }
+        return 'light';
+    });
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
         setMounted(true);
-        const savedTheme = localStorage.getItem('theme') as Theme;
-        if (savedTheme) {
-            setTheme(savedTheme);
-        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            setTheme('dark');
+        // Apply initial theme to document
+        if (theme === 'dark') {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
         }
     }, []);
 
@@ -40,10 +53,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
     };
 
-    if (!mounted) {
-        return <>{children}</>;
-    }
-
+    // Always provide the context, even before mount
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
             {children}
