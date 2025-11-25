@@ -5,7 +5,10 @@ import { useTheme } from './ThemeProvider';
 export default function ThemeToggle() {
     const { theme, toggleTheme } = useTheme();
 
-    const handleClick = () => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log('Button clicked, current theme:', theme);
         toggleTheme();
     };
 

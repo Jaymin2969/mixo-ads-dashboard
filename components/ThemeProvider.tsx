@@ -30,16 +30,38 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
     const [mounted, setMounted] = useState(false);
 
-    // Initialize on mount
+    // Initialize on mount and sync with DOM
     useEffect(() => {
         setMounted(true);
-
-        // Apply initial theme to document
+        
         const root = document.documentElement;
-        if (theme === 'dark') {
+        const savedTheme = localStorage.getItem('theme') as Theme | null;
+        
+        // Sync with what's actually in the DOM (from ThemeScript)
+        const hasDarkClass = root.classList.contains('dark');
+        
+        if (savedTheme) {
+            // Use saved theme
+            if (savedTheme === 'dark') {
+                root.classList.add('dark');
+                if (theme !== 'dark') setTheme('dark');
+            } else {
+                root.classList.remove('dark');
+                if (theme !== 'light') setTheme('light');
+            }
+        } else if (hasDarkClass && theme === 'light') {
+            // DOM has dark but state is light - sync state
+            setTheme('dark');
+        } else if (!hasDarkClass && theme === 'dark') {
+            // DOM doesn't have dark but state is dark - sync DOM
             root.classList.add('dark');
         } else {
-            root.classList.remove('dark');
+            // Apply current theme
+            if (theme === 'dark') {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
         }
     }, []);
 
@@ -52,7 +74,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         // Update localStorage
         localStorage.setItem('theme', theme);
 
-        // Update document class
+        // Update document class - Tailwind only uses 'dark' class
         if (theme === 'dark') {
             root.classList.add('dark');
         } else {
@@ -61,20 +83,23 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }, [theme, mounted]);
 
     const toggleTheme = () => {
-        const root = document.documentElement;
         const currentTheme = theme;
         const newTheme: Theme = currentTheme === 'light' ? 'dark' : 'light';
-        
+        const root = document.documentElement;
+
+        console.log('Toggling theme from', currentTheme, 'to', newTheme);
+
         // Immediately update DOM for instant feedback
+        // Tailwind only uses 'dark' class - if not present, it's light mode
         if (newTheme === 'dark') {
             root.classList.add('dark');
         } else {
             root.classList.remove('dark');
         }
-        
+
         // Update localStorage immediately
         localStorage.setItem('theme', newTheme);
-        
+
         // Update state
         setTheme(newTheme);
     };
