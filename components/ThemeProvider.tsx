@@ -12,48 +12,64 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    // Initialize theme from localStorage or system preference
-    const [theme, setTheme] = useState<Theme>(() => {
-        // Only access localStorage on client side
-        if (typeof window !== 'undefined') {
-            const savedTheme = localStorage.getItem('theme') as Theme;
-            if (savedTheme) {
-                return savedTheme;
-            }
-            if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-                return 'dark';
-            }
-        }
-        return 'light';
-    });
+    const [theme, setTheme] = useState<Theme>('light');
     const [mounted, setMounted] = useState(false);
 
+    // Initialize theme on mount
     useEffect(() => {
         setMounted(true);
-        // Apply initial theme to document
-        if (theme === 'dark') {
+        
+        // Get saved theme or system preference
+        const savedTheme = localStorage.getItem('theme') as Theme | null;
+        let initialTheme: Theme = 'light';
+        
+        if (savedTheme === 'dark' || savedTheme === 'light') {
+            initialTheme = savedTheme;
+        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            initialTheme = 'dark';
+        }
+        
+        setTheme(initialTheme);
+        
+        // Apply theme to document immediately
+        if (initialTheme === 'dark') {
             document.documentElement.classList.add('dark');
         } else {
             document.documentElement.classList.remove('dark');
         }
     }, []);
 
+    // Update document and localStorage when theme changes
     useEffect(() => {
-        if (mounted) {
-            localStorage.setItem('theme', theme);
-            if (theme === 'dark') {
-                document.documentElement.classList.add('dark');
-            } else {
-                document.documentElement.classList.remove('dark');
-            }
+        if (!mounted) return;
+        
+        // Update localStorage
+        localStorage.setItem('theme', theme);
+        
+        // Update document class
+        const root = document.documentElement;
+        if (theme === 'dark') {
+            root.classList.add('dark');
+        } else {
+            root.classList.remove('dark');
         }
     }, [theme, mounted]);
 
     const toggleTheme = () => {
-        setTheme((prev) => (prev === 'light' ? 'dark' : 'light'));
+        setTheme((prev) => {
+            const newTheme = prev === 'light' ? 'dark' : 'light';
+            // Immediately update DOM for instant feedback
+            const root = document.documentElement;
+            if (newTheme === 'dark') {
+                root.classList.add('dark');
+            } else {
+                root.classList.remove('dark');
+            }
+            return newTheme;
+        });
     };
 
-    // Always provide the context, even before mount
+    // Always provide the context
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>
             {children}
