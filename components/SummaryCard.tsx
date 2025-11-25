@@ -7,17 +7,17 @@ interface SummaryCardProps {
 
 export default function SummaryCard({ title, value, subtitle, icon }: SummaryCardProps) {
     return (
-        <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-all duration-300 hover:shadow-md hover:scale-105 transform">
             <div className="flex items-center justify-between">
                 <div>
-                    <p className="text-sm font-medium text-gray-600">{title}</p>
-                    <p className="text-2xl font-bold text-gray-900 mt-2">{value}</p>
+                    <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
+                    <p className="text-2xl font-bold text-gray-900 dark:text-white mt-2 transition-colors duration-300">{value}</p>
                     {subtitle && (
-                        <p className="text-xs text-gray-500 mt-1">{subtitle}</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-500 mt-1">{subtitle}</p>
                     )}
                 </div>
                 {icon && (
-                    <div className="text-gray-400">
+                    <div className="text-gray-400 dark:text-gray-500">
                         {icon}
                     </div>
                 )}
