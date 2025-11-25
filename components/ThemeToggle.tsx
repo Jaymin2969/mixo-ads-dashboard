@@ -5,12 +5,13 @@ import { useTheme } from './ThemeProvider';
 export default function ThemeToggle() {
     const { theme, toggleTheme } = useTheme();
 
+    const handleClick = () => {
+        toggleTheme();
+    };
+
     return (
         <button
-            onClick={(e) => {
-                e.preventDefault();
-                toggleTheme();
-            }}
+            onClick={handleClick}
             className="relative p-2 rounded-lg bg-gray-200 dark:bg-[#334155] hover:bg-gray-300 dark:hover:bg-[#475569] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-[#0f172a]"
             aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
             type="button"

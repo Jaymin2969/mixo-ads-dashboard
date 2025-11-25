@@ -12,30 +12,34 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [theme, setTheme] = useState<Theme>('light');
+    // Initialize theme from localStorage or system preference
+    const [theme, setTheme] = useState<Theme>(() => {
+        if (typeof window === 'undefined') return 'light';
+        
+        const savedTheme = localStorage.getItem('theme') as Theme | null;
+        if (savedTheme === 'dark' || savedTheme === 'light') {
+            return savedTheme;
+        }
+        
+        if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            return 'dark';
+        }
+        
+        return 'light';
+    });
+    
     const [mounted, setMounted] = useState(false);
 
-    // Initialize theme on mount
+    // Initialize on mount
     useEffect(() => {
         setMounted(true);
-
-        // Get saved theme or system preference
-        const savedTheme = localStorage.getItem('theme') as Theme | null;
-        let initialTheme: Theme = 'light';
-
-        if (savedTheme === 'dark' || savedTheme === 'light') {
-            initialTheme = savedTheme;
-        } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            initialTheme = 'dark';
-        }
-
-        setTheme(initialTheme);
-
-        // Apply theme to document immediately
-        if (initialTheme === 'dark') {
-            document.documentElement.classList.add('dark');
+        
+        // Apply initial theme to document
+        const root = document.documentElement;
+        if (theme === 'dark') {
+            root.classList.add('dark');
         } else {
-            document.documentElement.classList.remove('dark');
+            root.classList.remove('dark');
         }
     }, []);
 
@@ -43,11 +47,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     useEffect(() => {
         if (!mounted) return;
 
+        const root = document.documentElement;
+        
         // Update localStorage
         localStorage.setItem('theme', theme);
 
         // Update document class
-        const root = document.documentElement;
         if (theme === 'dark') {
             root.classList.add('dark');
         } else {
@@ -58,6 +63,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     const toggleTheme = () => {
         setTheme((prev) => {
             const newTheme = prev === 'light' ? 'dark' : 'light';
+            
             // Immediately update DOM for instant feedback
             const root = document.documentElement;
             if (newTheme === 'dark') {
@@ -65,6 +71,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
             } else {
                 root.classList.remove('dark');
             }
+            
+            // Update localStorage immediately
+            localStorage.setItem('theme', newTheme);
+            
             return newTheme;
         });
     };
