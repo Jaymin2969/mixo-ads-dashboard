@@ -1,8 +1,8 @@
 export default function ThemeScript() {
-  return (
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `
+    return (
+        <script
+            dangerouslySetInnerHTML={{
+                __html: `
           (function() {
             try {
               const theme = localStorage.getItem('theme');
@@ -15,8 +15,8 @@ export default function ThemeScript() {
             } catch (e) {}
           })();
         `,
-      }}
-    />
-  );
+            }}
+        />
+    );
 }
 
