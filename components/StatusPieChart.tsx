@@ -54,7 +54,7 @@ export default function StatusPieChart({ campaigns }: StatusPieChartProps) {
     const completedPath = createArc(currentAngle, currentAngle + completedAngle);
 
     return (
-        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 transition-colors duration-300 hover:shadow-lg">
+        <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow-sm border border-gray-200 dark:border-[#334155] p-6 transition-colors duration-300 hover:shadow-lg">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 transition-colors duration-300">Campaign Status Breakdown</h3>
             <div className="flex flex-col items-center">
                 <svg width="240" height="240" viewBox="0 0 240 240" className="mb-6">

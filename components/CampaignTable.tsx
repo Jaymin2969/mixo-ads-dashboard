@@ -51,7 +51,7 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
         const styles = {
             active: 'bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200',
             paused: 'bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200',
-            completed: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200',
+            completed: 'bg-gray-100 dark:bg-[#334155] text-gray-800 dark:text-gray-200',
         };
 
         return (
@@ -78,8 +78,8 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
     };
 
     return (
-        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 transition-colors duration-300 animate-fade-in">
-            <div className="p-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="bg-white dark:bg-[#1e293b] rounded-lg shadow-sm border border-gray-200 dark:border-[#334155] transition-colors duration-300 animate-fade-in">
+            <div className="p-4 border-b border-gray-200 dark:border-[#334155]">
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <h2 className="text-lg font-semibold text-gray-900 dark:text-white transition-colors duration-300">Campaigns</h2>
                     <div className="flex items-center gap-2">
@@ -87,7 +87,7 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
                         <select
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value as CampaignStatus | 'all')}
-                            className="px-3 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors duration-300"
+                            className="px-3 py-1.5 border border-gray-300 dark:border-[#334155] rounded-md text-sm bg-white dark:bg-[#1e293b] text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-colors duration-300"
                         >
                             <option value="all">All</option>
                             <option value="active">Active</option>
@@ -100,10 +100,10 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
 
             <div className="overflow-x-auto">
                 <table className="w-full">
-                    <thead className="bg-gray-50 dark:bg-slate-900">
+                    <thead className="bg-gray-50 dark:bg-[#0f172a]">
                         <tr>
                             <th
-                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-[#334155] transition-colors duration-200"
                                 onClick={() => handleSort('name')}
                             >
                                 <div className="flex items-center gap-1">
@@ -120,7 +120,7 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
                                 Status
                             </th>
                             <th
-                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-[#334155] transition-colors duration-200"
                                 onClick={() => handleSort('budget')}
                             >
                                 <div className="flex items-center gap-1">
@@ -137,7 +137,7 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
                                 Platforms
                             </th>
                             <th
-                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-200"
+                                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:bg-gray-100 dark:hover:bg-[#334155] transition-colors duration-200"
                                 onClick={() => handleSort('created_at')}
                             >
                                 <div className="flex items-center gap-1">
@@ -149,7 +149,7 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
                             </th>
                         </tr>
                     </thead>
-                    <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
+                    <tbody className="bg-white dark:bg-[#1e293b] divide-y divide-gray-200 dark:divide-[#334155]">
                         {sortedCampaigns.length === 0 ? (
                             <tr>
                                 <td colSpan={7} className="px-6 py-8 text-center text-gray-500 dark:text-gray-400">
@@ -160,7 +160,7 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
                             sortedCampaigns.map((campaign, index) => (
                                 <tr
                                     key={campaign.id}
-                                    className="hover:bg-gray-50 dark:hover:bg-slate-700 transition-colors duration-200 animate-fade-in"
+                                    className="hover:bg-gray-50 dark:hover:bg-[#334155] transition-colors duration-200 animate-fade-in"
                                     style={{ animationDelay: `${index * 0.05}s` }}
                                 >
                                     <td className="px-6 py-4 whitespace-nowrap">
@@ -201,7 +201,7 @@ export default function CampaignTable({ campaigns }: CampaignTableProps) {
                 </table>
             </div>
 
-            <div className="px-6 py-4 border-t border-gray-200 dark:border-slate-700 bg-gray-50 dark:bg-slate-900">
+            <div className="px-6 py-4 border-t border-gray-200 dark:border-[#334155] bg-gray-50 dark:bg-[#0f172a]">
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                     Showing {sortedCampaigns.length} of {campaigns.length} campaigns
                 </p>
