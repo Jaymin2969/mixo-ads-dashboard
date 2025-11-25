@@ -33,13 +33,13 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Initialize on mount and sync with DOM
     useEffect(() => {
         setMounted(true);
-        
+
         const root = document.documentElement;
         const savedTheme = localStorage.getItem('theme') as Theme | null;
-        
+
         // Sync with what's actually in the DOM (from ThemeScript)
         const hasDarkClass = root.classList.contains('dark');
-        
+
         if (savedTheme) {
             // Use saved theme
             if (savedTheme === 'dark') {
@@ -86,8 +86,6 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         const currentTheme = theme;
         const newTheme: Theme = currentTheme === 'light' ? 'dark' : 'light';
         const root = document.documentElement;
-
-        console.log('Toggling theme from', currentTheme, 'to', newTheme);
 
         // Immediately update DOM for instant feedback
         // Tailwind only uses 'dark' class - if not present, it's light mode
