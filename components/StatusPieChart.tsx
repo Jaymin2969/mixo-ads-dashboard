@@ -54,7 +54,7 @@ export default function StatusPieChart({ campaigns }: StatusPieChartProps) {
     const completedPath = createArc(currentAngle, currentAngle + completedAngle);
 
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-colors duration-300">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 transition-colors duration-300 hover:shadow-lg">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6 transition-colors duration-300">Campaign Status Breakdown</h3>
             <div className="flex flex-col items-center">
                 <svg width="240" height="240" viewBox="0 0 240 240" className="mb-6">
@@ -64,8 +64,8 @@ export default function StatusPieChart({ campaigns }: StatusPieChartProps) {
                         fill="#9333EA"
                         stroke="white"
                         strokeWidth="2"
-                        className="animate-draw-arc transition-all duration-300 hover:opacity-80 cursor-pointer"
-                        style={{ animationDelay: '0.1s' }}
+                        className="animate-draw-arc transition-all duration-300 hover:opacity-90 hover:scale-105 cursor-pointer"
+                        style={{ animationDelay: '0.2s', transformOrigin: '120px 120px' }}
                     />
                     {/* Paused segment - Green */}
                     <path
@@ -73,8 +73,8 @@ export default function StatusPieChart({ campaigns }: StatusPieChartProps) {
                         fill="#10B981"
                         stroke="white"
                         strokeWidth="2"
-                        className="animate-draw-arc transition-all duration-300 hover:opacity-80 cursor-pointer"
-                        style={{ animationDelay: '0.3s' }}
+                        className="animate-draw-arc transition-all duration-300 hover:opacity-90 hover:scale-105 cursor-pointer"
+                        style={{ animationDelay: '0.4s', transformOrigin: '120px 120px' }}
                     />
                     {/* Completed segment - Orange */}
                     <path
@@ -82,8 +82,8 @@ export default function StatusPieChart({ campaigns }: StatusPieChartProps) {
                         fill="#F97316"
                         stroke="white"
                         strokeWidth="2"
-                        className="animate-draw-arc transition-all duration-300 hover:opacity-80 cursor-pointer"
-                        style={{ animationDelay: '0.5s' }}
+                        className="animate-draw-arc transition-all duration-300 hover:opacity-90 hover:scale-105 cursor-pointer"
+                        style={{ animationDelay: '0.6s', transformOrigin: '120px 120px' }}
                     />
                 </svg>
                 <div className="space-y-3 w-full">

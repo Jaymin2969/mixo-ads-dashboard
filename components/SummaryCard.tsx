@@ -7,7 +7,7 @@ interface SummaryCardProps {
 
 export default function SummaryCard({ title, value, subtitle, icon }: SummaryCardProps) {
     return (
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 p-6 transition-all duration-300 hover:shadow-md hover:scale-105 transform">
+        <div className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-6 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] transform hover:-translate-y-1">
             <div className="flex items-center justify-between">
                 <div>
                     <p className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</p>
