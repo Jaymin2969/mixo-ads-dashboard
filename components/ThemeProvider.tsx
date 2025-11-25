@@ -15,25 +15,25 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     // Initialize theme from localStorage or system preference
     const [theme, setTheme] = useState<Theme>(() => {
         if (typeof window === 'undefined') return 'light';
-        
+
         const savedTheme = localStorage.getItem('theme') as Theme | null;
         if (savedTheme === 'dark' || savedTheme === 'light') {
             return savedTheme;
         }
-        
+
         if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
             return 'dark';
         }
-        
+
         return 'light';
     });
-    
+
     const [mounted, setMounted] = useState(false);
 
     // Initialize on mount
     useEffect(() => {
         setMounted(true);
-        
+
         // Apply initial theme to document
         const root = document.documentElement;
         if (theme === 'dark') {
@@ -48,7 +48,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
         if (!mounted) return;
 
         const root = document.documentElement;
-        
+
         // Update localStorage
         localStorage.setItem('theme', theme);
 
@@ -61,22 +61,22 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
     }, [theme, mounted]);
 
     const toggleTheme = () => {
-        setTheme((prev) => {
-            const newTheme = prev === 'light' ? 'dark' : 'light';
-            
-            // Immediately update DOM for instant feedback
-            const root = document.documentElement;
-            if (newTheme === 'dark') {
-                root.classList.add('dark');
-            } else {
-                root.classList.remove('dark');
-            }
-            
-            // Update localStorage immediately
-            localStorage.setItem('theme', newTheme);
-            
-            return newTheme;
-        });
+        const root = document.documentElement;
+        const currentTheme = theme;
+        const newTheme: Theme = currentTheme === 'light' ? 'dark' : 'light';
+        
+        // Immediately update DOM for instant feedback
+        if (newTheme === 'dark') {
+            root.classList.add('dark');
+        } else {
+            root.classList.remove('dark');
+        }
+        
+        // Update localStorage immediately
+        localStorage.setItem('theme', newTheme);
+        
+        // Update state
+        setTheme(newTheme);
     };
 
     // Always provide the context
